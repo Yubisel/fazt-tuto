@@ -2,15 +2,15 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/users/signin', (req, res)=>{
-    res.send('signin');
+    res.render('users/signin');
 });
 
 router.get('/users/signup', (req, res)=>{
-    res.send('signup');
+    res.render('users/signup');
 });
 
-router.get('/users/signout', (req, res)=>{
-    res.send('signout');
-});
+// router.get('/users/signout', (req, res)=>{
+//     res.render('users/signout');
+// });
 
 module.exports = router;

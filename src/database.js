@@ -1,9 +1,13 @@
+/*jshint esversion: 6 */
+
 const mongoose = require('mongoose');
+const __c = console;
 
 mongoose.connect('mongodb://localhost/fazt-tuto', {
    useCreateIndex: true,
    useNewUrlParser: true,
-   useFindAndModify: false 
+   useFindAndModify: false,
+   useUnifiedTopology: true
 })
-    .then(db => console.log('DB is connected'))
-    .catch(db => console.error(err));
+    .then(db => __c.log('DB is connected'))
+    .catch(db => __c.error(err));

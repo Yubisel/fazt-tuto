@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon src/index.js",
+    "dev": "nodemon src/index.js",
+    "assets": "node-sass -w src/public/css/main.scss src/public/css/main.min.css --source-map true --output-style compressed",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

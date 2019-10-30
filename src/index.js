@@ -4,7 +4,7 @@ const path = require('path');
 const exphbs = require('express-handlebars');
 const methodOverride = require('method-override');
 const session = require('express-session');
-const __c = console.log;
+const __c = console;
 
 
 //Initializations
@@ -43,6 +43,4 @@ app.use(require('./routes/notes'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 //Server is listenning
-app.listen(app.get('port'), () => {
-    __c('Server on port', app.get('port'));
-});
+app.listen(app.get('port'), p => __c.log('Server on port', app.get('port')) );
