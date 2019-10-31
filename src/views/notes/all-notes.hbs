@@ -1,0 +1,49 @@
+<div class="row row-cards row-deck">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title"><i class="fe fe-list"></i> Lista de notas</h3>
+                <div class="card-options">
+                    <a href="/notes/add" class="btn btn-primary btn-sm" data-toggle="tooltip" title=""
+                        data-original-title="Crear"><i class="fe fe-plus"></i></a>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover table-outline table-vcenter text-nowrap card-table">
+                    <thead>
+                        <tr>
+                            <th class="w-1">No.</th>
+                            <th>Título</th>
+                            <th>Descripción</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each notes }}
+                        <tr>
+                            <td><span class="text-muted">001401</span></td>
+                            <td>{{ title }}</td>
+                            <td>{{ description }}</td>
+                            <td class="text-center">
+                                <a class="btn btn-icon btn-primary btn-sm btn-success" href="/notes/edit/{{_id}}"
+                                    data-toggle="tooltip" title="" data-original-title="Editar"><i
+                                        class="fe fe-edit"></i></a>
+                                <form action="/notes/delete/{{_id}}?_method=DELETE" method="post" class="d-inline">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <button class="btn btn-icon btn-primary btn-sm btn-danger" type="submit"
+                                        data-toggle="tooltip" title="" data-original-title="Eliminar"><i
+                                            class="fe fe-trash"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                        {{else}}
+                        <tr>
+                            <td colspan="4">Sin notas que mostrar</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
