@@ -1,11 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', (req, res)=>{
+const { isAuthenticated } = require('../helpers/auth');
+
+router.get('/', isAuthenticated, (req, res)=>{
     res.render('index');
 });
 
-router.get('/about', (req, res)=>{
+router.get('/about', isAuthenticated, (req, res)=>{
     res.render('about');
 });
 

@@ -4,9 +4,11 @@ const router = express.Router();
 //modelo
 const Note = require('../models/Note');
 
+const { isAuthenticated } = require('../helpers/auth');
+
 //notes list
-router.get('/notes', async (req, res) => {
-    const notes = await Note.find().sort({
+router.get('/notes', isAuthenticated, async (req, res) => {
+    const notes = await Note.find({user: req.user.id}).sort({
         created: -1
     });
     res.render('notes/all-notes', {
@@ -15,12 +17,12 @@ router.get('/notes', async (req, res) => {
 });
 
 //render form to add
-router.get('/notes/add', (req, res) => {
+router.get('/notes/add', isAuthenticated, (req, res) => {
     res.render('notes/new-note');
 });
 
 //add note to db
-router.post('/notes/new-note', async (req, res) => {
+router.post('/notes/new-note', isAuthenticated, async (req, res) => {
     const {
         title,
         description
@@ -48,6 +50,7 @@ router.post('/notes/new-note', async (req, res) => {
             title,
             description
         });
+        newNote.user = req.user.id;
         await newNote.save();
         req.flash('success_msg', 'Nota creada satisfactoriamente');
         res.redirect('/notes');
@@ -55,7 +58,7 @@ router.post('/notes/new-note', async (req, res) => {
 });
 
 //render form to edit
-router.get('/notes/edit/:id', async (req, res) => {
+router.get('/notes/edit/:id', isAuthenticated, async (req, res) => {
     await Note.findById(req.params.id, (err, note) => {
         if (err) {
             req.flash('error_msg', 'No existe ninguna nota con el id especificado');
@@ -69,7 +72,7 @@ router.get('/notes/edit/:id', async (req, res) => {
 });
 
 //update note to db
-router.put('/notes/edit-note/:id', async (req, res) => {
+router.put('/notes/edit-note/:id', isAuthenticated, async (req, res) => {
     const note = await Note.findById(req.params.id, (err, note) => {
         if (err) {
             req.flash('error_msg', 'No existe ninguna nota con el id especificado');
@@ -115,7 +118,7 @@ router.put('/notes/edit-note/:id', async (req, res) => {
 });
 
 //delete note from db
-router.delete('/notes/delete/:id', async (req, res) => {
+router.delete('/notes/delete/:id', isAuthenticated, async (req, res) => {
     await Note.findByIdAndDelete(req.params.id, (err) => {
         if (err) {
             req.flash('error_msg', 'No se pudo eliminar la nota especificada');
