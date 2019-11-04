@@ -7,9 +7,11 @@ shim: {
 'vector-map-de': ['vector-map', 'jquery'],
 'vector-map-world': ['vector-map', 'jquery'],
 'core': ['bootstrap', 'jquery'],
+'main': ['bootstrap', 'jquery'],
 },
 paths: {
 'core': '/tabler/js/core',
+'main': '/js/main',
 'jquery': '/tabler/js/vendors/jquery-3.2.1.min',
 'bootstrap': '/tabler/js/vendors/bootstrap.bundle.min',
 'sparkline': '/tabler/js/vendors/jquery.sparkline.min',
@@ -124,3 +126,4 @@ colors: {
 }
 };
 require(['core']);
+require(['main']);

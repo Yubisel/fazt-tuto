@@ -6,6 +6,8 @@
                 <div class="card-options">
                     <a href="/notes/add" class="btn btn-primary btn-sm" data-toggle="tooltip" title=""
                         data-original-title="Crear"><i class="fe fe-plus"></i></a>
+                    {{!-- <a href="#" class="btn btn-primary btn-sm ml-2" data-toggle="modal" data-target="#exampleModal"><i
+                            class="fe fe-plus"></i></a> --}}
                 </div>
             </div>
             <div class="table-responsive">
@@ -21,18 +23,16 @@
                     <tbody>
                         {{#each notes }}
                         <tr>
-                            <td><span class="text-muted">001401</span></td>
+                            <td><span class="text-muted">{{@index}}</span></td>
                             <td>{{ title }}</td>
                             <td>{{ description }}</td>
                             <td class="text-center">
-                                <a class="btn btn-icon btn-primary btn-sm btn-success" href="/notes/edit/{{_id}}"
+                                <a class="btn btn-icon btn-sm btn-success" href="/notes/edit/{{_id}}"
                                     data-toggle="tooltip" title="" data-original-title="Editar"><i
                                         class="fe fe-edit"></i></a>
-                                <form action="/notes/delete/{{_id}}?_method=DELETE" method="post" class="d-inline">
-                                    <input type="hidden" name="_method" value="DELETE">
-                                    <button class="btn btn-icon btn-primary btn-sm btn-danger" type="submit"
-                                        data-toggle="tooltip" title="" data-original-title="Eliminar"><i
-                                            class="fe fe-trash"></i></button>
+                                <a class="btn btn-icon btn-sm btn-danger delete-element" data-url="/notes/delete/{{_id}}?_method=DELETE" href="#"
+                                    data-toggle="tooltip" title="" data-original-title="Eliminar"><i
+                                        class="fe fe-trash"></i></a>
                                 </form>
                             </td>
                         </tr>

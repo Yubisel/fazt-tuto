@@ -6,6 +6,7 @@ const Note = require('../models/Note');
 
 const { isAuthenticated } = require('../helpers/auth');
 
+
 //notes list
 router.get('/notes', isAuthenticated, async (req, res) => {
     const notes = await Note.find({user: req.user.id}).sort({

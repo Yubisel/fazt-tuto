@@ -1,0 +1,25 @@
+<!-- Modal -->
+<div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="delete-element-modal"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="delete-element-modal">Eliminar elemento</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                Está seguro que desea eliminar este elemento?
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <form action="" method="post" id="delete-confirm-form">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="button" class="btn btn-secondary btn-sm d-inline" data-dismiss="modal"><i
+                            class="fe fe-slash"></i> Cancelar</button>
+                    <button type="submit" class="btn btn-danger btn-sm d-inline"><i class="fe fe-trash"></i>
+                        Eliminar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

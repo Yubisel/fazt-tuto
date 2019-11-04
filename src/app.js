@@ -48,13 +48,13 @@ app.use((req, res, next) => {
     next();
 });
 
-//Routes
-app.use(require('./routes/index'));
-app.use(require('./routes/users'));
-app.use(require('./routes/notes'));
-
 //Statics
 app.use(express.static(path.join(__dirname, 'public')));
+
+//Routes
+app.use(require('./routes/users'));
+app.use(require('./routes/index'));
+app.use(require('./routes/notes'));
 
 //Server is listenning
 app.listen(app.get('port'), p => __c.log('Server on port', app.get('port')) );
