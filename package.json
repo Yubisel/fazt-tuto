@@ -10,7 +10,11 @@
   },
   "keywords": [],
   "author": "Ing. Yubisel Vega Alvarez",
-  "license": "ISC",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yubisel/fazt-tuto.git"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "connect-flash": "^0.1.1",
@@ -21,6 +25,7 @@
     "mongoose": "^5.7.7",
     "morgan": "^1.9.1",
     "passport": "^0.4.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "socket.io": "^2.3.0"
   }
 }
