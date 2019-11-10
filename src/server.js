@@ -8,6 +8,9 @@ const flash = require('connect-flash');
 const passport = require('passport');
 const __c = console;
 
+const socketio = require('socket.io');
+const http = require('http');
+
 
 //Initializations
 const app = express();
@@ -52,9 +55,14 @@ app.use((req, res, next) => {
 app.use(express.static(path.join(__dirname, 'public')));
 
 //Routes
-app.use(require('./routes/users'));
+app.use('/users', require('./routes/users'));
 app.use(require('./routes/index'));
-app.use(require('./routes/notes'));
+app.use('/notes', require('./routes/notes'));
 
-//Server is listenning
-app.listen(app.get('port'), p => __c.log('Server on port', app.get('port')) );
+//stuf for socket.io
+const server = http.createServer(app);
+const io = socketio.listen(server);
+require('./sockets/sockets')(io);
+
+//starting the server
+server.listen(app.get('port'), p => __c.log('Server on port', app.get('port')) );

@@ -8,7 +8,7 @@ const { isAuthenticated } = require('../helpers/auth');
 
 
 //notes list
-router.get('/notes', isAuthenticated, async (req, res) => {
+router.get('/', isAuthenticated, async (req, res) => {
     const notes = await Note.find({user: req.user.id}).sort({
         created: -1
     });
@@ -18,12 +18,12 @@ router.get('/notes', isAuthenticated, async (req, res) => {
 });
 
 //render form to add
-router.get('/notes/add', isAuthenticated, (req, res) => {
+router.get('/add', isAuthenticated, (req, res) => {
     res.render('notes/new-note');
 });
 
 //add note to db
-router.post('/notes/new-note', isAuthenticated, async (req, res) => {
+router.post('/new-note', isAuthenticated, async (req, res) => {
     const {
         title,
         description
@@ -59,7 +59,7 @@ router.post('/notes/new-note', isAuthenticated, async (req, res) => {
 });
 
 //render form to edit
-router.get('/notes/edit/:id', isAuthenticated, async (req, res) => {
+router.get('/edit/:id', isAuthenticated, async (req, res) => {
     await Note.findById(req.params.id, (err, note) => {
         if (err) {
             req.flash('error_msg', 'No existe ninguna nota con el id especificado');
@@ -73,7 +73,7 @@ router.get('/notes/edit/:id', isAuthenticated, async (req, res) => {
 });
 
 //update note to db
-router.put('/notes/edit-note/:id', isAuthenticated, async (req, res) => {
+router.put('/edit-note/:id', isAuthenticated, async (req, res) => {
     const note = await Note.findById(req.params.id, (err, note) => {
         if (err) {
             req.flash('error_msg', 'No existe ninguna nota con el id especificado');
@@ -119,7 +119,7 @@ router.put('/notes/edit-note/:id', isAuthenticated, async (req, res) => {
 });
 
 //delete note from db
-router.delete('/notes/delete/:id', isAuthenticated, async (req, res) => {
+router.delete('/delete/:id', isAuthenticated, async (req, res) => {
     await Note.findByIdAndDelete(req.params.id, (err) => {
         if (err) {
             req.flash('error_msg', 'No se pudo eliminar la nota especificada');

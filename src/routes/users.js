@@ -1,12 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
+const {isAuthenticated} = require('../helpers/auth');
+
 //modelo
 const User = require('../models/User');
 
 const passport = require('passport');
 
-router.get('/users/signin', (req, res) => {
+router.get('/signin', (req, res) => {
     if (req.isAuthenticated()) {
         res.redirect('/');
     } else {
@@ -16,13 +18,13 @@ router.get('/users/signin', (req, res) => {
     }
 });
 
-router.post('/users/signin', passport.authenticate('local', {
+router.post('/signin', passport.authenticate('local', {
     successRedirect: '/notes',
     failureRedirect: '/users/signin',
     failureFlash: true
 }));
 
-router.get('/users/signup', (req, res) => {
+router.get('/signup', (req, res) => {
     if (req.isAuthenticated()) {
         res.redirect('/');
     } else {
@@ -32,12 +34,14 @@ router.get('/users/signup', (req, res) => {
     }
 });
 
-router.post('/users/signup', async (req, res) => {
+router.post('/signup', async (req, res) => {
     if (req.isAuthenticated()) {
         res.redirect('/');
     } else {
         const {
             name,
+            lastname,
+            username,
             email,
             password,
             confirm_password
@@ -45,9 +49,15 @@ router.post('/users/signup', async (req, res) => {
         const errors = {};
         let haveErrors = false;
 
-        if (!name) {
+        if (!username) {
             haveErrors = true;
-            errors.name = "Por favor inserta el nombre";
+            errors.username = "Por favor inserta el usuario";
+        }else{
+            const usernameUser = await User.findOne({username: username});
+            if (usernameUser){
+                haveErrors = true;
+                errors.username = "El nombre de usuario ya existe";
+            }
         }
 
         if (!email) {
@@ -81,6 +91,8 @@ router.post('/users/signup', async (req, res) => {
                 layout: false,
                 errors,
                 name,
+                lastname,
+                username,
                 email,
                 password,
                 confirm_password
@@ -88,6 +100,8 @@ router.post('/users/signup', async (req, res) => {
         } else {
             const newUser = new User({
                 name,
+                lastname,
+                username,
                 email,
                 password
             });
@@ -99,9 +113,18 @@ router.post('/users/signup', async (req, res) => {
     }
 });
 
-router.get('/users/logout', (req, res) => {
+router.get('/logout', (req, res) => {
     req.logout();
     res.redirect('/users/signin');
+});
+
+//Profile editing
+router.get('/profile', isAuthenticated, async (req, res) => {
+    res.render('users/profile');
+});
+
+router.post('/update_profile', isAuthenticated, async (req, res) => {
+    res.redirect('/users/profile');
 });
 
 module.exports = router;

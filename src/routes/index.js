@@ -1,13 +1,19 @@
 const express = require('express');
 const router = express.Router();
 
-const { isAuthenticated } = require('../helpers/auth');
+const {
+    isAuthenticated
+} = require('../helpers/auth');
 
-router.get('/', isAuthenticated, (req, res)=>{
-    res.render('index');
+router.get('/', (req, res) => {
+    if (req.isAuthenticated()) {
+        res.render('index');
+    } else {
+        res.redirect('/users/signin');
+    }
 });
 
-router.get('/about', isAuthenticated, (req, res)=>{
+router.get('/about', isAuthenticated, (req, res) => {
     res.render('about');
 });
 

@@ -2,9 +2,9 @@
   "name": "fazt-tuto",
   "version": "1.0.0",
   "description": "Proyecto para la gestion de notas con autenticacion basado en tutorial de youtube de fazt",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
-    "dev": "nodemon src/app.js",
+    "dev": "nodemon src/server.js",
     "assets": "node-sass -w src/public/css/main.scss src/public/css/main.min.css --source-map true --output-style compressed",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
