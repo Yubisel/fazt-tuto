@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-const {isAuthenticated} = require('../helpers/auth');
+const {
+    isAuthenticated
+} = require('../helpers/auth');
 
 //modelo
 const User = require('../models/User');
@@ -52,11 +54,13 @@ router.post('/signup', async (req, res) => {
         if (!username) {
             haveErrors = true;
             errors.username = "Por favor inserta el usuario";
-        }else{
-            const usernameUser = await User.findOne({username: username});
-            if (usernameUser){
+        } else {
+            const usernameUser = await User.findOne({
+                username: username
+            });
+            if (usernameUser) {
                 haveErrors = true;
-                errors.username = "El nombre de usuario ya existe";
+                errors.username = "El usuario ya existe";
             }
         }
 
@@ -120,11 +124,81 @@ router.get('/logout', (req, res) => {
 
 //Profile editing
 router.get('/profile', isAuthenticated, async (req, res) => {
-    res.render('users/profile');
+    res.render('users/profile', {
+        name: req.user.name,
+        lastname: req.user.lastname,
+        username: req.user.username,
+        email: req.user.email
+    });
 });
 
-router.post('/update_profile', isAuthenticated, async (req, res) => {
-    res.redirect('/users/profile');
+router.put('/update-profile', isAuthenticated, async (req, res) => {
+    const {
+        name,
+        lastname,
+        username,
+        email
+    } = req.body;
+
+    const errors = {};
+    let haveErrors = false;
+
+    if (!username) {
+        haveErrors = true;
+        errors.username = "Por favor inserta el usuario";
+    } else {
+        const usernameUser = await User.findOne({
+            _id: {
+                $ne: req.user._id
+            },
+            username: username
+        });
+        if (usernameUser) {
+            haveErrors = true;
+            errors.username = "El usuario ya existe";
+        }
+    }
+
+    if (!email) {
+        haveErrors = true;
+        errors.email = "Por favor inserta el correo";
+    } else {
+        const emailUser = await User.findOne({
+            _id: {
+                $ne: req.user._id
+            },
+            email: email
+        });
+        if (emailUser) {
+            haveErrors = true;
+            errors.email = "Ya existe una cuenta asociada a este correo";
+        }
+    }
+
+    if (haveErrors) {
+        res.render('users/profile', {
+            errors,
+            name,
+            lastname,
+            username,
+            email
+        });
+    } else {
+        await User.findByIdAndUpdate(req.user._id, {
+            name,
+            lastname,
+            username,
+            email
+        }, err => {
+            if (err) {
+                req.flash('error_msg', 'No se pudo actualizar el perfil de usuario');
+                res.redirect('/users/profile');
+            } else {
+                req.flash('success_msg', 'Perfil de usuario actualizado correctamente');
+                res.redirect('/users/profile');
+            }
+        });
+    }
 });
 
 module.exports = router;
