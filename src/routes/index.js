@@ -17,4 +17,8 @@ router.get('/about', isAuthenticated, (req, res) => {
     res.render('about');
 });
 
+router.get('/chat', isAuthenticated, (req, res) => {
+    res.render('chat');
+});
+
 module.exports = router;
